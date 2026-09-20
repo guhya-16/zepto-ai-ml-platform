@@ -49,7 +49,7 @@ An enterprise-grade, end-to-end AI/ML and Data Platform built for Zepto's analyt
 │   └── README.md                   # Module 2 detailed documentation & metric tables
 │
 └── support_assistant/              # [Module 3 — 25 Marks]
-    ├── docs/                       # 8 official Zepto policy documents (doc_01.txt ... doc_08.txt)
+    ├── docs/                       # 8 Zepto policy documents provided by assignment (doc_01.txt ... doc_08.txt)
     │   ├── doc_01.txt              # Delivery Policy
     │   ├── doc_02.txt              # Returns & Refunds
     │   ├── doc_03.txt              # Membership Tiers (Basic, Pass, Pass+)
