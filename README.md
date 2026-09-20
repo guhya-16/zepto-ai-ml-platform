@@ -12,65 +12,7 @@ An enterprise-grade, end-to-end AI/ML and Data Platform built for Zepto's analyt
 2. **`/analytics`**: A single-load, leak-free exploratory data analysis (EDA) and predictive modeling pipeline profiling customer/passenger outcomes, featuring threshold-based missing value handling, IQR outlier detection, bivariate & multivariate hypothesis testing, 3-way class imbalance handling (Baseline vs. `class_weight='balanced'` vs. SMOTE), Random Forest hyperparameter tuning with Out-of-Bag (OOB) validation, a multivariate linear regression side-task on fare with residual heteroscedasticity analysis, and a serialized end-to-end Scikit-Learn `ColumnTransformer` pipeline (`best_pipeline.joblib`).
 3. **`/support_assistant`**: A grounded GenAI Policy Support Assistant powered by local SentenceTransformers (`all-MiniLM-L6-v2`), persistent **ChromaDB** vector storage, a 3-node **LangGraph** intent routing StateGraph, structured Pydantic JSON contracts with retry logic, a **FastAPI** service (`POST /ask`), and a containerized **Dockerfile** with a deterministic offline mock baseline.
 
----
-
-## 1. Repository Structure
-
-```text
-.
-├── .gitignore                      # Git ignore rules
-├── requirements.txt                # Consolidated dependencies for all modules
-├── README.md                       # Root architecture, setup, and run instructions
-│
-├── data_pipeline/                  # [Module 1 — 25 Marks]
-│   ├── scraper.py                  # BeautifulSoup catalog web scraper & clean transformer
-│   ├── pipeline.py                 # SQLite database schema creation & SQL/Pandas query engine
-│   ├── run_pipeline.py             # End-to-end execution runner
-│   ├── data_pipeline.ipynb         # Executed Jupyter notebook with markdown interpretations
-│   ├── queries.sql                 # Formatted SQL queries (SELECT, WHERE, LIMIT, DISTINCT, JOIN)
-│   ├── books.db                    # Generated normalized SQLite relational database
-│   └── README.md                   # Module 1 detailed documentation
-│
-├── analytics/                      # [Module 2 — 50 Marks]
-│   ├── 01_eda.ipynb                # Single dataset load, profiling, cleaning, bivariate/multivariate EDA
-│   ├── 02_modeling.ipynb           # Stratified train/test split, ML classifiers, SMOTE, tuning, regression
-│   ├── run_analytics.py            # Python execution engine and artifact generator
-│   ├── titanic.csv                 # Committed offline dataset fallback
-│   ├── best_pipeline.joblib        # Complete serialized ColumnTransformer + Estimator pipeline
-│   ├── charts/                     # Generated high-resolution visualization artifacts
-│   │   ├── age_fare_univariate.png
-│   │   ├── correlation_heatmap.png
-│   │   ├── multivariate_story.png
-│   │   ├── standardization_check.png
-│   │   ├── decision_tree.png
-│   │   ├── roc_curves.png
-│   │   ├── confusion_matrices.png
-│   │   └── regression_residuals.png
-│   └── README.md                   # Module 2 detailed documentation & metric tables
-│
-└── support_assistant/              # [Module 3 — 25 Marks]
-    ├── docs/                       # 8 Zepto policy documents provided by assignment (doc_01.txt ... doc_08.txt)
-    │   ├── doc_01.txt              # Delivery Policy
-    │   ├── doc_02.txt              # Returns & Refunds
-    │   ├── doc_03.txt              # Membership Tiers (Basic, Pass, Pass+)
-    │   ├── doc_04.txt              # Order Tracking
-    │   ├── doc_05.txt              # Order Cancellation Policy
-    │   ├── doc_06.txt              # Damaged or Missing Items
-    │   ├── doc_07.txt              # Gift Cards
-    │   └── doc_08.txt              # Customer Support Hours
-    ├── schemas.py                  # Pydantic QueryRequest & QueryResponse schemas
-    ├── prompts.py                  # Role-Context-Task prompt skeleton with negative constraints
-    ├── vector_store.py             # SentenceTransformers + persistent ChromaDB vector store
-    ├── graph.py                    # LangGraph 3-node StateGraph intent router & mock logic
-    ├── main.py                     # FastAPI application service with POST /ask
-    ├── test_assistant.py           # Comprehensive automated test suite
-    ├── Dockerfile                  # Container definition for local/cloud serving
-    └── README.md                   # Module 3 detailed documentation & example transcripts
-```
-
----
-
-## 2. Environment Setup & Installation
+## 1. Environment Setup & Installation
 
 ### Prerequisites:
 - Python 3.11, 3.12, or 3.13
@@ -95,7 +37,7 @@ pip install -r requirements.txt
 
 ---
 
-## 3. How to Run Each Module End-to-End
+## 2. How to Run Each Module End-to-End
 
 ### Module 1: Data Pipeline (`/data_pipeline`)
 Runs web scraping of 100 books across 29 categories from `books.toscrape.com`, applies data cleaning, performs fixed-rate currency conversion ($1\text{ GBP} = 105.50\text{ INR}$), initializes the normalized two-table SQLite database (`books.db`), executes 6 analytical queries, and verifies Pandas merge equivalence.
@@ -140,7 +82,7 @@ docker run -p 7860:7860 zepto-support-assistant
 
 ---
 
-## 4. Module Summaries & Key Design Decisions
+## 3. Module Summaries & Key Design Decisions
 
 ### Module 1: Data Pipeline Design Decisions
 1. **Defensive Scraping & Cleaning**:
@@ -226,18 +168,3 @@ Multivariate Linear Reg.        17.85        40.49   0.3854         0.3638
    - Pydantic model enforcing `{"answer": str, "sources": List[str], "confidence": float}` with retry-on-failure logic (up to 2 retries).
 5. **Containerization**:
    - Production-ready `Dockerfile` with health check serving via `uvicorn` on port `7860`.
-
----
-
-## 5. Git Workflow & Commit History
-
-As required by the project evaluation criteria:
-- Development is structured with a dedicated feature branch (`feature/analytics` or `feature/zepto-platform-implementation`).
-- Multiple atomic commits demonstrate progressive feature additions.
-- The feature branch is merged back into `main` with preserved branch history.
-
----
-
-## 6. Author & Academic Integrity Statement
-
-This project was developed by an incoming AI/ML Engineer for the **Zepto Data & AI Platform Capstone Project**. All code, analytical interpretations, and architectures were authored in accordance with the evaluation guidelines.
